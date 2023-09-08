@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 
-const NewBoxForm = () => {
+const NewBoxForm = ({addBox}) => {
 
   const INITIAL_STATE = {
     width: "",
     height: "",
-    backgroundColor: ""
+    color: ""
   }
 
-  const [formData, setFromData] = useState(INITIAL_STATE)
+  const [formData, setFormData] = useState(INITIAL_STATE)
 
   const handleChange = (e) => {
-    setFromData(formData => ({
+    setFormData(formData => ({
       ...formData,
       [e.target.name]: e.target.value
     }))
@@ -19,7 +19,8 @@ const NewBoxForm = () => {
 
   const handleForm = (e) => {
     e.preventDefault();
-    setFromData("")
+    addBox(formData.width, formData.height, formData.color)
+    setFormData(INITIAL_STATE)
   }
 
   return (
