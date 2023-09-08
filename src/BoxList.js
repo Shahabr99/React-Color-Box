@@ -20,7 +20,7 @@ const BoxList = () => {
   return (
     <>
       <NewBoxForm addBox={addBox} />
-      <div>
+      <div className="container">
         {boxes.map(box => <Box key={box.id} width={box.width} height={box.height} color={box.color} />)}
       </div>
     </>
