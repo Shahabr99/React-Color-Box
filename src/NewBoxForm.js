@@ -1,40 +1,75 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 const NewBoxForm = ({addBox}) => {
 
-  const INITIAL_STATE = {
+  const INITIAL_VALUES = {
     width: "",
     height: "",
     color: ""
   }
 
-  const [formData, setFormData] = useState(INITIAL_STATE)
+  // const INITIAL_STATE = {
+  //   width: "",
+  //   height: "",
+  //   color: ""
+  // }
 
-  const handleChange = (e) => {
-    setFormData(formData => ({
-      ...formData,
-      [e.target.name]: e.target.value
-    }))
-  }
+  const validationSchema = Yup.object({
+    width: Yup.number().required('Width is required'),
+    height: Yup.number().required('Heght is required'),
+    color: Yup.string().required('Color is required'),
+  })
 
-  const handleForm = (e) => {
-    e.preventDefault();
-    addBox(formData.width, formData.height, formData.color)
-    setFormData(INITIAL_STATE)
-  }
+  // const [formData, setFormData] = useState(INITIAL_STATE)
+
+  // const handleChange = (e) => {
+  //   setFormData(formData => ({
+  //     ...formData,
+  //     [e.target.name]: e.target.value
+  //   }))
+  // }
+
+  // const handleForm = (e) => {
+  //   e.preventDefault();
+  //   addBox(formData.width, formData.height, formData.color)
+  //   setFormData(INITIAL_STATE)
+  // }
+
+  const handleSubmit = (values, { resetForm }) => {
+    addBox(values.width, values.height, values.color);
+    resetForm(INITIAL_VALUES);
+  };
 
   return (
-    <>
-      <form onSubmit={handleForm} >
-        <label htmlFor="width">Width:</label>
-        <input id="width" name='width' value={formData.value} placeholder="Box Width" onChange={handleChange} />
-        <label htmlFor="height">Height</label>
-        <input id="height" name="height" value={formData.value} placeholder="Box Height" onChange={handleChange} />
-        <label htmlFor="color">Background color:</label>
-        <input id="color" name="color" value={formData.value} placeholder="Box Color" onChange={handleChange} />
-        <button>Create 📦</button>
-      </form>
-    </>
+    <Formik
+      initialValues={INITIAL_VALUES}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form >
+        <div>
+          <label htmlFor="width">Width:</label>
+          <Field id="width" name='width'  placeholder="Box Width" />
+          <ErrorMessage name="width" component="div" className="error" />
+        </div>
+        
+        <div>
+          <label htmlFor="height">Height</label>
+          <Field id="height" name="height"  placeholder="Box Height" />
+          <ErrorMessage name="height" component="div" className="error" />
+        </div>
+        
+        <div>
+          <label htmlFor="color">Background color:</label>
+          <Field id="color" name="color"  placeholder="Box Color" />
+          <ErrorMessage name="color" component="div" className="error" />
+        </div>
+        
+        <button type="submit">Create 📦</button>
+      </Form>
+    </Formik>
   )
 }
 

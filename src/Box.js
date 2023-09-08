@@ -1,4 +1,5 @@
 import React from 'react';
+import './Box';
 
 const Box = ({width, height, color}) => {
 
@@ -9,9 +10,7 @@ const Box = ({width, height, color}) => {
   }
 
   return (
-    <>
-      <div className="box" style={boxStyle} ></div>
-    </>
+      <div className="box" style={boxStyle} >{color}</div>
   )
 }
 
